@@ -21,6 +21,7 @@ struct UndavSelect::Select {
 Options* CreateOptions() {
     Options* newOptions = new Options;
     newOptions->next=NULL;
+	newOptions->optionItem = NULL;
     return newOptions;
 }
 
@@ -28,6 +29,7 @@ UndavSelect::Select* UndavSelect::CreateSelect(string name) {
     Select* newSelect = new Select;
     newSelect->options = CreateOptions();
     newSelect->name = name;
+	newSelect->cant = 0;
     return newSelect;
 }
 
@@ -104,17 +106,28 @@ UndavOptionItem::OptionItem* UndavSelect::GetSelectedItem(Select* select) {
 }
 
 void UndavSelect::AddOption(Select* select, UndavOptionItem::OptionItem* newOption) {
-    Options* auxOptions = select->options;
-    while (auxOptions ->next != NULL ) {
-            auxOptions  = auxOptions ->next;
-    }
+	if (select->options->optionItem != NULL) {
+		Options* auxiliarOptions = select->options;
+		while (UndavOptionItem::GetText(auxiliarOptions->optionItem) != UndavOptionItem::GetText(newOption) &&
+			
+			UndavOptionItem::GetValue(auxiliarOptions->optionItem) != UndavOptionItem::GetValue(newOption) &&
+			auxiliarOptions->next != NULL) {
+			auxiliarOptions = auxiliarOptions->next;
 
-    if (auxOptions ->next == NULL) {
-        Options* newOptions = CreateOptions();
-        newOptions->optionItem = newOption;
-        newOptions->next = newOptions;
-        select->cant++;
-    }
+		}
+		if (auxiliarOptions->next == NULL) {
+			Options* nuevoOptions = CreateOptions();
+			nuevoOptions->optionItem = newOption;
+			nuevoOptions->next = NULL;
+			auxiliarOptions->next = nuevoOptions;
+			select->cant++;
+		}
+	}
+	else {
+		select->options->optionItem = newOption;
+		select->options->next = NULL;
+		select->cant++;
+	}
 }
 
 void DestroyOptions(Options* options) {

@@ -104,15 +104,14 @@ Form* CrearFormulario(OnFormSubmitted accion)
 	UndavRadioButtonList::AddRadioButton(subscripcion, CreateRadioButton("subscripcion", "semanal"));
 	UndavRadioButtonList::AddRadioButton(subscripcion, CreateRadioButton("subscripcion", "quincenal"));
 	UndavRadioButtonList::AddRadioButton(subscripcion, CreateRadioButton("subscripcion", "mensual"));
-	cout << "paso add radio" << endl;
+	
 	UndavForm::AddField(formulario, "Nombre", GetInputElement(nombre));
 	UndavForm::AddField(formulario, "Apellido", GetInputElement(apellido));
 	UndavForm::AddField(formulario, "Correo electronico", GetInputElement(mail));
 	UndavForm::AddField(formulario, "Carrera que cursa", carrera);
 	UndavForm::AddField(formulario, "¿Que tipo de subscripcion quiere?", subscripcion);
-	cout << "paso add field" << endl;
+
 	UndavForm::SetSubmitButton(formulario, boton);
-	cout << "paso submit" << endl;
 
 	return formulario;
 }
